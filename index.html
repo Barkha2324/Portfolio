@@ -1,0 +1,930 @@
+  <!DOCTYPE html>
+  <html lang="en">
+  <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Varsha - Edits</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg: #131217;
+      --bg-panel: #1c1a20;
+      --ink: #f1ece1;
+      --ink-muted: #9a9389;
+      --gold: #c9a262;
+      --rose: #c17f72;
+      --line: rgba(241,236,225,0.12);
+      --vh: 1vh;
+    }
+    *{ box-sizing: border-box; margin:0; padding:0; }
+    html{ scroll-behavior: smooth; background: var(--bg); }
+    body{
+      background: var(--bg);
+      color: var(--ink);
+      font-family: 'Manrope', sans-serif;
+      overflow-x: hidden;
+    }
+    ::selection{ background: var(--gold); color: var(--bg); }
+
+    h1,h2,h3{
+      font-family: 'Fraunces', serif;
+      font-weight: 400;
+      letter-spacing: -0.01em;
+    }
+
+    /* ---------- progress rail ---------- */
+    .rail{
+      position: fixed;
+      top:0; left:0;
+      width: 3px;
+      height: 100vh;
+      background: var(--line);
+      z-index: 60;
+    }
+    .rail-fill{
+      position: absolute;
+      top:0; left:0;
+      width:100%;
+      height: 0%;
+      background: linear-gradient(var(--gold), var(--rose));
+      transform-origin: top;
+    }
+
+    /* ---------- nav ---------- */
+    nav{
+      position: fixed;
+      top:0; left:0; right:0;
+      display:flex;
+      justify-content: space-between;
+      align-items:center;
+      padding: 26px 44px;
+      z-index: 50;
+      background: rgba(19,18,23,0.72);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--line);
+    }
+    nav .brand{
+      font-family:'Fraunces', serif;
+      font-size: 1.35rem;
+      letter-spacing: 0.02em;
+    }
+    nav .nav-links{
+      display:flex;
+      gap: 36px;
+    }
+    nav .nav-links a{
+      color: var(--ink-muted);
+      text-decoration:none;
+      font-size: 0.98rem;
+      letter-spacing: 0.02em;
+      transition: color 0.2s ease;
+    }
+    nav .nav-links a:hover{ color: var(--gold); }
+
+    section{ position: relative; }
+
+    /* ---------- site-wide SideRays ambience ---------- */
+    .side-rays-container{
+      position:fixed;
+      inset:0;
+      z-index:2;
+      width:100%;
+      height:100%;
+      overflow:hidden;
+      pointer-events:none;
+      mix-blend-mode:screen;
+      opacity:1;
+    }
+    .side-rays-container::before{
+      content:'';
+      position:absolute;
+      inset:-60% -20% -20% -60%;
+      transform-origin:100% 0;
+      background: conic-gradient(from 136deg at 100% 0%,
+        transparent 0deg 8deg,
+        rgba(201,162,98,0.38) 14deg,
+        transparent 21deg,
+        rgba(193,127,114,0.28) 27deg,
+        transparent 35deg,
+        rgba(201,162,98,0.18) 42deg,
+        transparent 52deg);
+      filter:blur(7px);
+      animation: side-ray-sweep 16s ease-in-out infinite alternate;
+    }
+    .side-rays-container canvas{ display:block; position:relative; z-index:1; width:100%; height:100%; }
+    @keyframes side-ray-sweep{
+      from{ transform:rotate(-4deg) scale(1); }
+      to{ transform:rotate(5deg) scale(1.04); }
+    }
+
+    /* ---------- hero ---------- */
+    .hero{
+      min-height: 100vh;
+      padding: 0 44px;
+      background:
+        radial-gradient(ellipse 70% 50% at 15% 20%, rgba(201,162,98,0.10), transparent 60%),
+        radial-gradient(ellipse 60% 45% at 85% 80%, rgba(193,127,114,0.08), transparent 60%),
+        var(--bg);
+    }
+    .hero-grid{
+      min-height: 100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding: 90px 0 60px;
+      text-align:center;
+    }
+    .hero-text{ max-width: 760px; }
+  .hero-eyebrow{
+    font-size: 0.85rem;
+    color: var(--ink-muted);
+    margin-bottom: 22px;
+    max-width: none;
+    letter-spacing: clamp(0.5em, 2.8vw, 3.7em);
+    white-space: nowrap;
+    transform: translateX(clamp(0.25em, 1.4vw, 1.85em));
+  }
+    .hero h1{
+      font-size: clamp(3.1rem, 7vw, 6.5rem);
+      line-height: 1.03;
+    }
+    .hero h1 span{
+      display:block;
+      overflow:hidden;
+    }
+    .hero h1 span em{
+      font-style: italic;
+      color: var(--gold);
+    }
+    .hero-word{
+      display:inline-block;
+      transform: translateY(115%);
+    }
+    .hero-sub{
+      margin: 20px auto 0;
+      max-width: 620px;
+      color: var(--ink-muted);
+      font-size: 1.08rem;
+      line-height: 1.6;
+      opacity: 0;
+    }
+    /* ---------- about ---------- */
+    .about{
+      min-height: 100vh;
+      display:grid;
+      grid-template-columns: 1fr 0.8fr;
+      align-items:center;
+      gap: clamp(42px, 9vw, 140px);
+      padding: 120px 12vw;
+      border-top: 1px solid var(--line);
+      background: var(--bg-panel);
+    }
+    .about-label{
+      color: var(--gold);
+      font-size: 0.78rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      margin-bottom: 18px;
+    }
+    .about h2{ font-size: clamp(2.5rem, 5vw, 4.8rem); line-height: 1.05; }
+    .about-copy{
+      max-width: 50ch;
+      margin-top: 28px;
+      color: var(--ink-muted);
+      font-size: 1.08rem;
+      line-height: 1.75;
+    }
+    .about-photo{ justify-self:end; width:min(100%, 360px); }
+    .about-photo .photo-frame{ max-width:none; }
+    .photo-frame{
+      width: 100%;
+      max-width: 340px;
+      aspect-ratio: 4 / 5;
+      border-radius: 6px;
+      border: 1px solid var(--line);
+      background: #1c1a20;
+      position: relative;
+      overflow: hidden;
+      display:block;
+      padding: 0;
+    }
+    .photo-frame img{
+      display:block;
+      width:100%;
+      height:100%;
+      object-fit:cover;
+    }
+    .scroll-cue{
+      position:absolute;
+      bottom: 40px; left: 44px;
+      display:flex;
+      align-items:center;
+      gap:12px;
+      font-size:0.78rem;
+      color: var(--ink-muted);
+      opacity:0;
+    }
+    .scroll-cue .dash{
+      width: 28px; height:1px;
+      background: var(--ink-muted);
+    }
+
+    /* ---------- category sections ---------- */
+    .category{
+      position: relative;
+    }
+    .category-pin{
+      height: 100vh;
+      display:grid;
+      grid-template-columns: 0.9fr 1.1fr;
+      align-items:center;
+      gap: 40px;
+      padding: 0 44px;
+      border-top: 1px solid var(--line);
+      background: var(--bg);
+    }
+    .cat-side{ position: relative; }
+    .cat-num{
+      position:absolute;
+      top:-30px; left:-8px;
+      font-family:'Fraunces', serif;
+      font-size: 7rem;
+      color: transparent;
+      -webkit-text-stroke: 1px var(--line);
+      z-index:0;
+      user-select:none;
+    }
+    .cat-side h2{
+      position:relative;
+      font-size: clamp(2rem, 4vw, 3.2rem);
+      margin-bottom: 18px;
+    }
+    .cat-side p{
+      position:relative;
+      color: var(--ink-muted);
+      max-width: 32ch;
+      line-height:1.6;
+      font-size: 1.08rem;
+    }
+    .cat-side .accent{ color: var(--gold); }
+    .category-badge{
+      position:relative;
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      margin: 0 0 14px;
+      padding: 7px 11px;
+      border: 1px solid var(--gold);
+      border-radius: 999px;
+      color: var(--gold);
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+    .category-badge::before{
+      content:'★';
+      font-size: 0.75rem;
+    }
+
+    .cat-stage{
+      position: relative;
+      height: min(62vh, 560px);
+    }
+    .subcard{
+      position:absolute;
+      inset:0;
+      display:flex;
+      flex-direction:column;
+      justify-content:flex-end;
+      border-radius: 6px;
+      padding: 26px 28px;
+      border: 1px solid var(--line);
+      overflow:hidden;
+      opacity:0;
+      transform: translateY(60px) scale(0.97);
+      pointer-events:none;
+    }
+  .subcard:first-child{ opacity:1; transform:none; pointer-events:auto; z-index:1; }
+  .subcard[data-video]{ cursor: pointer; }
+  .video-modal{
+    position: fixed; inset: 0;
+    background: rgba(10,9,12,0.92);
+    display: none; align-items: center; justify-content: center;
+    padding: 24px; z-index: 200;
+  }
+  .video-modal.open{ display:flex; }
+  .video-modal-inner{ width: 100%; max-width: 960px; position: relative; }
+  .video-modal-frame{ width: 100%; aspect-ratio: 16 / 9; }
+  .video-modal-frame iframe{ width: 100%; height: 100%; border: 0; border-radius: 6px; }
+  .video-modal-close{
+    position: absolute; top: -46px; right: 0;
+    background: none; border: none; color: inherit;
+    font-size: 2rem; line-height: 1; cursor: pointer;
+  }
+    .subcard .frame{
+      position:absolute;
+      inset:0;
+      z-index:0;
+      background-position:center;
+      background-size:cover;
+      background-repeat:no-repeat;
+    }
+    .subcard .frame::after{
+      content:'';
+      position:absolute; inset:0;
+      background: linear-gradient(180deg, transparent 40%, rgba(0,0,0,0.65) 100%);
+    }
+    .subcard .meta{
+      position:relative;
+      z-index:1;
+    }
+    .subcard .meta .idx{
+      font-size:0.75rem;
+      color: var(--ink-muted);
+      letter-spacing:0.04em;
+      margin-bottom: 6px;
+    }
+    .subcard .meta h3{
+      font-size: 1.5rem;
+      margin-bottom: 8px;
+    }
+    .subcard .meta p{
+      color: var(--ink-muted);
+      font-size: 1rem;
+      max-width: 40ch;
+    }
+    .subcard .play{
+      position:absolute;
+      top: 22px; right: 22px;
+      width: 40px; height:40px;
+      border-radius:50%;
+      border:1px solid rgba(241,236,225,0.4);
+      display:flex; align-items:center; justify-content:center;
+      z-index:1;
+    }
+    .subcard .play svg{ width:12px; height:12px; }
+
+    .cat-progress{
+      position:absolute;
+      bottom: -30px; left:0;
+      display:flex;
+      gap: 6px;
+    }
+    .cat-progress button{
+      width: 22px; height:2px;
+      background: var(--line);
+      display:block;
+      border:0;
+      padding:0;
+      cursor:pointer;
+    }
+    .cat-progress button.on{ background: var(--gold); }
+    .cat-progress button:focus-visible{ outline:2px solid var(--gold); outline-offset:4px; }
+
+    /* palette variety per category, no default look */
+    #wedding .frame{ background: linear-gradient(135deg, #3a2d22, #6b4a2c); }
+    #couple   .frame{ background: linear-gradient(135deg, #402a2a, #7a4a44); }
+    #others   .frame{ background: linear-gradient(135deg, #1f2b26, #3d5a4c); }
+
+    /* ---------- philosophy ---------- */
+    .philosophy{
+      min-height: auto;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding: 100px 44px;
+      border-top: 1px solid var(--line);
+    }
+    .philosophy .inner{
+      max-width: 880px;
+      margin: 0 auto;
+      text-align:center;
+    }
+    .philosophy h2{
+      font-size: clamp(1.9rem, 4.2vw, 3.2rem);
+      line-height:1.3;
+    }
+    .philosophy h2 .accent{ color: var(--rose); font-style: italic; }
+    .philosophy p.lead{
+      margin: 26px auto 0;
+      color: var(--ink-muted);
+      max-width: 56ch;
+      line-height: 1.7;
+      font-size: 1.1rem;
+    }
+    .tool-strip{
+      margin-top: 54px;
+      display:flex;
+      justify-content:center;
+      gap: 0;
+      flex-wrap: wrap;
+      border-top: 1px solid var(--line);
+      padding-top: 30px;
+    }
+    .tool-strip div{
+      padding: 0 44px;
+      margin: 0;
+      border-right: 1px solid var(--line);
+      text-align:left;
+    }
+    .tool-strip div:last-child{ border-right:none; }
+    .tool-strip div:first-child{ padding-left:0; }
+    .tool-strip{ color: var(--ink-muted); font-size: 0.9rem; }
+    .tool-strip span{ color: var(--ink); font-size: 1.05rem; display:inline-block; margin-top: 6px; }
+
+    /* ---------- contact ---------- */
+    .contact{
+      min-height: 0;
+      display:flex;
+      flex-direction:row;
+      align-items:center;
+      justify-content:space-between;
+      gap: 48px;
+      padding: 80px 44px 60px;
+      border-top: 1px solid var(--line);
+    }
+    .contact h2{
+      font-size: clamp(1.9rem, 4vw, 4.2rem);
+      max-width: 22em;
+      flex: 1;
+      text-align: center;
+    }
+    @media (min-width: 640px){
+      .contact h2{ white-space: nowrap; }
+    }
+    .contact-links{
+      display:grid;
+      gap: 14px;
+      min-width: min(100%, 320px);
+    }
+    .contact-links a{
+      color: var(--ink);
+      text-decoration:none;
+      font-size: 0.95rem;
+      border-bottom: 1px solid var(--line);
+      padding: 0 0 9px;
+      display:flex;
+      justify-content:space-between;
+      gap: 32px;
+    }
+    .contact-links .contact-label{ color: var(--ink-muted); }
+    .contact-links a:hover{ border-color: var(--gold); color: var(--gold); }
+    footer{
+      padding: 30px 44px;
+      color: var(--ink-muted);
+      font-size: 0.78rem;
+      border-top: 1px solid var(--line);
+      display:flex;
+      justify-content:space-between;
+    }
+
+  @media (max-width: 860px){
+      .category-pin{ grid-template-columns: 1fr; align-items:start; padding-top: 100px; gap: 26px; }
+      .cat-stage{ height: 48vh; }
+      .cat-num{ display:none; }
+      nav{ padding: 18px 22px; }
+      nav .nav-links{ gap: 18px; }
+      nav .nav-links a{ font-size: 0.78rem; }
+      .hero, .philosophy, .contact{ padding-left: 22px; padding-right: 22px; }
+    .hero-grid{ padding: 100px 0 60px; }
+    .hero-eyebrow{ letter-spacing: clamp(0.35em, 2vw, 1em); transform: translateX(0.5em); }
+      .about{ grid-template-columns:1fr; padding:100px 22px; gap:40px; }
+      .about-photo{ justify-self:start; width:min(100%, 300px); }
+      .photo-frame{ max-width: 220px; margin: 0 auto; }
+      .philosophy{ padding: 100px 22px; }
+      .contact{ flex-direction:column; align-items:flex-start; gap:36px; }
+      .contact-links{ width:100%; }
+      .tool-strip{ justify-content:flex-start; }
+      .tool-strip div{ padding: 0 22px; text-align:left; }
+      .tool-strip div:first-child{ padding-left:0; }
+    }
+
+    @media (prefers-reduced-motion: reduce){
+      .subcard{ opacity:1 !important; transform:none !important; }
+      .hero-word{ transform:none !important; }
+      .hero-sub, .scroll-cue{ opacity:1 !important; }
+      .side-rays-container{ display:none; }
+    }
+  </style>
+  </head>
+  <body>
+
+  <div class="side-rays-container" id="sideRays" aria-hidden="true"></div>
+  <div class="rail"><div class="rail-fill" id="railFill"></div></div>
+
+  <nav>
+    <div class="brand">Varsha</div>
+    <div class="nav-links">
+      <a href="#about">About</a>
+      <a href="#wedding">Work</a>
+      <a href="#philosophy">Philosophy</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </nav>
+
+  <section class="hero">
+    <div class="hero-grid">
+      <div class="hero-text">
+        <h1>
+          <span class="hero-word-wrap"><span class="hero-word">Varsha <em>Sasiya</em></span></span>
+        </h1>
+        <div class="hero-eyebrow">Video Editor</div>
+        <p class="hero-sub">Trims, cuts, transitions, and slow motion — placed where the moment asks for them.</p>
+      </div>
+    </div>
+    <div class="scroll-cue"><span class="dash"></span> scroll to get to know me</div>
+  </section>
+
+  <section class="about" id="about">
+    <div class="about-text">
+      <div class="about-label">About me</div>
+      <h2>A little about me.</h2>
+      <p class="about-copy">I’m Varsha, a video editor who turns raw footage into stories worth returning to. I edit weddings, couple films, and other stories with thoughtful pacing, natural cuts, and feeling-first detail.</p>
+    </div>
+    <div class="about-photo">
+      <div class="photo-frame"><img src="image.png" alt="Varsha Sasiya, video editor"></div>
+    </div>
+  </section>
+
+  <section class="category" id="wedding">
+    <div class="category-pin">
+      <div class="cat-side">
+        <div class="cat-num">01</div>
+        <h2>Wedding<br>Edits</h2>
+        <p>My <span class="accent">specialty</span>: full-day footage condensed into one film - vows, rituals, reactions, and the in-between moments nobody thinks to film twice.</p>
+        <div class="category-badge">Signature Work</div>
+        <div class="cat-progress" id="wedding-dots" aria-label="Select wedding video">
+          <button class="on" type="button" aria-label="Show wedding video 1" aria-pressed="true"></button><button type="button" aria-label="Show wedding video 2" aria-pressed="false"></button><button type="button" aria-label="Show wedding video 3" aria-pressed="false"></button>
+        </div>
+      </div>
+      <div class="cat-stage">
+      <div class="subcard" data-video="sjC---V1ZoY">
+          <div class="frame"></div>
+          <div class="play"><svg viewBox="0 0 24 24" fill="none" stroke="#f1ece1" stroke-width="2"><polygon points="5,3 19,12 5,21"/></svg></div>
+          <div class="meta">
+            <div class="idx">01</div>
+            <h3>Four hours, three minutes</h3>
+            <p>A full ceremony trimmed to its emotional core, cut to the natural rhythm of the day rather than a beat track.</p>
+          </div>
+        </div>
+      <div class="subcard" data-video="xt8zyOWpd30">
+          <div class="frame"></div>
+          <div class="play"><svg viewBox="0 0 24 24" fill="none" stroke="#f1ece1" stroke-width="2"><polygon points="5,3 19,12 5,21"/></svg></div>
+          <div class="meta">
+            <div class="idx">02</div>
+            <h3>The ritual film</h3>
+            <p>Slow motion used only where a gesture needed a second longer to land - the rest left untouched.</p>
+          </div>
+        </div>
+      <div class="subcard" data-video="_GKl76UAxvE">
+          <div class="frame"></div>
+          <div class="play"><svg viewBox="0 0 24 24" fill="none" stroke="#f1ece1" stroke-width="2"><polygon points="5,3 19,12 5,21"/></svg></div>
+          <div class="meta">
+            <div class="idx">03</div>
+            <h3>Invitation teaser</h3>
+            <p>A 40-second cut built from selects, paced to invite people in rather than explain everything.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="category" id="couple">
+    <div class="category-pin">
+      <div class="cat-side">
+        <div class="cat-num">02</div>
+        <h2>Bride & Groom<br>Edits</h2>
+        <p>Quieter, slower edits built around <span class="accent">one feeling</span> - pacing that matches how the moment actually felt to be in.</p>
+        <div class="cat-progress" id="couple-dots" aria-label="Select couple video">
+          <button class="on" type="button" aria-label="Show couple video 1" aria-pressed="true"></button><button type="button" aria-label="Show couple video 2" aria-pressed="false"></button><button type="button" aria-label="Show couple video 3" aria-pressed="false"></button>
+        </div>
+      </div>
+      <div class="cat-stage">
+      <div class="subcard" data-video="U3SuOJmohSs">
+          <div class="frame"></div>
+          <div class="play"><svg viewBox="0 0 24 24" fill="none" stroke="#f1ece1" stroke-width="2"><polygon points="5,3 19,12 5,21"/></svg></div>
+          <div class="meta">
+            <div class="idx">01</div>
+            <h3>Couple Edit</h3>
+            <p>Cut on breath and glance, not on a beat - slow motion held for the moments that earned it.</p>
+          </div>
+        </div>
+      <div class="subcard" data-video="nHleCIB2048">
+          <div class="frame"></div>
+          <div class="play"><svg viewBox="0 0 24 24" fill="none" stroke="#f1ece1" stroke-width="2"><polygon points="5,3 19,12 5,21"/></svg></div>
+          <div class="meta">
+            <div class="idx">02</div>
+            <h3>Bridal Edit</h3>
+            <p>A year of clips arranged into one continuous feeling, transitions kept invisible.</p>
+          </div>
+        </div>
+      <div class="subcard" data-video="faBnpcM3i3g">
+          <div class="frame"></div>
+          <div class="play"><svg viewBox="0 0 24 24" fill="none" stroke="#f1ece1" stroke-width="2"><polygon points="5,3 19,12 5,21"/></svg></div>
+          <div class="meta">
+            <div class="idx">03</div>
+            <h3>Engagement Edit</h3>
+            <p>Shaky, real, unplanned footage trimmed and steadied without losing what made it real.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="category" id="others">
+    <div class="category-pin">
+      <div class="cat-side">
+        <div class="cat-num">03</div>
+        <h2>Other<br>Edits</h2>
+        <p>Travel, family, and everyday footage - <span class="accent">any raw clips</span>, arranged into something worth watching back.</p>
+        <div class="cat-progress" id="others-dots" aria-label="Select other video">
+          <button class="on" type="button" aria-label="Show other video 1" aria-pressed="true"></button><button type="button" aria-label="Show other video 2" aria-pressed="false"></button><button type="button" aria-label="Show other video 3" aria-pressed="false"></button>
+        </div>
+      </div>
+      <div class="cat-stage">
+      <div class="subcard" data-video="L9gC9jlAQTg">
+          <div class="frame"></div>
+          <div class="play"><svg viewBox="0 0 24 24" fill="none" stroke="#f1ece1" stroke-width="2"><polygon points="5,3 19,12 5,21"/></svg></div>
+          <div class="meta">
+            <div class="idx">01</div>
+            <h3>2D Animation</h3>
+            <p>Original 2D animation, made from scratch for Navratri.</p>
+          </div>
+        </div>
+      <div class="subcard" data-video="8ND3qyG-2AU">
+          <div class="frame"></div>
+          <div class="play"><svg viewBox="0 0 24 24" fill="none" stroke="#f1ece1" stroke-width="2"><polygon points="5,3 19,12 5,21"/></svg></div>
+          <div class="meta">
+            <div class="idx">02</div>
+            <h3>Monsoon</h3>
+            <p>Rain-soaked stock clips, paced to the music.</p>
+          </div>
+        </div>
+      <div class="subcard" data-video="2l0nyq8dxQE">
+          <div class="frame"></div>
+          <div class="play"><svg viewBox="0 0 24 24" fill="none" stroke="#f1ece1" stroke-width="2"><polygon points="5,3 19,12 5,21"/></svg></div>
+          <div class="meta">
+            <div class="idx">03</div>
+            <h3>Lyric-over-footage edit</h3>
+            <p>Stock clips arranged against a lyric line, cut for mood over meaning.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="philosophy" id="philosophy">
+    <div class="inner">
+      <h2>I don't add flash. I bring out <span class="accent">what's already there.</span></h2>
+      <p class="lead">I turn raw footage into the version people want to watch again - with the right trims, pauses, and cuts.</p>
+      <div class="tool-strip">
+        <div>Primary tool <br><span>DaVinci Resolve</span></div>
+        <div>Also using <br><span>CapCut, VN (mobile)</span></div>
+        <div>Turnaround <br><span>Raw footage → final story</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="contact" id="contact">
+    <h2>Have footage that deserves better?</h2>
+    <div class="contact-links">
+      <a href="mailto:varshasasiya65@gmail.com?subject=Video%20editing%20enquiry&body=Hi%20Varsha%2C%0A%0AI%20saw%20your%20portfolio%20and%20would%20like%20to%20talk%20about%20a%20video%20edit."><span class="contact-label">Gmail</span><span>varshasasiya65@gmail.com</span></a>
+      <a href="https://instagram.com/vibe_on_rythm" target="_blank" rel="noopener"><span class="contact-label">Instagram</span><span>@vibe_on_rythm</span></a>
+      <a href="https://wa.me/YOUR_NUMBER?text=Hi%20Varsha%2C%20I%20saw%20your%20portfolio%20and%20I%27d%20like%20to%20talk%20about%20a%20video%20edit." target="_blank" rel="noopener"><span class="contact-label">WhatsApp</span><span>Let's chat</span></a>
+    </div>
+  </section>
+
+<footer>
+  <span>Varsha - Video Editor</span>
+  <span>Based in Gandhidham</span>
+</footer>
+
+<div class="video-modal" id="videoModal">
+  <div class="video-modal-inner">
+    <button class="video-modal-close" id="videoModalClose" aria-label="Close video">&times;</button>
+    <div class="video-modal-frame" id="videoModalFrame"></div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script>
+  /* ---- SideRays: vanilla WebGL adaptation for this static site ---- */
+  (() => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const host = document.getElementById('sideRays');
+    const canvas = document.createElement('canvas');
+    const gl = canvas.getContext('webgl', { alpha: true, premultipliedAlpha: false });
+    if (!gl) return;
+    host.appendChild(canvas);
+
+    const vert = `attribute vec2 position;
+      void main(){ gl_Position = vec4(position, 0.0, 1.0); }`;
+    const frag = `precision highp float;
+      uniform float iTime, iSpeed, iIntensity, iSpread, iTilt, iSaturation, iBlend, iFalloff, iOpacity;
+      uniform vec2 iResolution;
+      uniform vec3 iRayColor1, iRayColor2;
+      float rayStrength(vec2 source, vec2 direction, vec2 coord, float a, float b, float speed){
+        vec2 sourceToCoord = coord - source;
+        float cosAngle = dot(normalize(sourceToCoord), direction);
+        return clamp((0.45 + 0.15 * sin(cosAngle * a + iTime * speed)) +
+          (0.3 + 0.2 * cos(-cosAngle * b + iTime * speed)), 0.0, 1.0) *
+          clamp((iResolution.x - length(sourceToCoord)) / iResolution.x, 0.5, 1.0);
+      }
+      void main(){
+        vec2 coord = vec2(gl_FragCoord.x, iResolution.y - gl_FragCoord.y);
+        vec2 rayPos = vec2(iResolution.x * 1.1, -0.5 * iResolution.y);
+        float tiltRad = iTilt * 3.14159265 / 180.0;
+        float cs = cos(tiltRad), sn = sin(tiltRad);
+        vec2 rel = coord - rayPos;
+        vec2 tilted = vec2(rel.x * cs - rel.y * sn, rel.x * sn + rel.y * cs) + rayPos;
+        float halfSpread = iSpread * 0.275;
+        vec2 dir1 = normalize(vec2(cos(0.785398 + halfSpread), sin(0.785398 + halfSpread)));
+        vec2 dir2 = normalize(vec2(cos(0.785398 - halfSpread), sin(0.785398 - halfSpread)));
+        vec3 color = iRayColor1 * rayStrength(rayPos, dir1, tilted, 36.2214, 21.11349, iSpeed) * (1.0 - iBlend) * 0.9;
+        color += iRayColor2 * rayStrength(rayPos, dir2, tilted, 22.3991, 18.0234, iSpeed * 0.2) * iBlend * 0.9;
+        float distanceToLight = length(gl_FragCoord.xy - vec2(rayPos.x, iResolution.y - rayPos.y)) / iResolution.y;
+        color *= iIntensity * 0.4 / pow(max(distanceToLight, 0.001), iFalloff);
+        float gray = dot(color, vec3(0.299, 0.587, 0.114));
+        color = mix(vec3(gray), color, iSaturation);
+        float alpha = max(color.r, max(color.g, color.b)) * iOpacity;
+        gl_FragColor = vec4(color, alpha);
+      }`;
+    const shader = (type, source) => {
+      const s = gl.createShader(type);
+      gl.shaderSource(s, source); gl.compileShader(s);
+      return s;
+    };
+    const program = gl.createProgram();
+    gl.attachShader(program, shader(gl.VERTEX_SHADER, vert));
+    gl.attachShader(program, shader(gl.FRAGMENT_SHADER, frag));
+    gl.linkProgram(program);
+    if (!gl.getProgramParameter(program, gl.LINK_STATUS)) return;
+    gl.useProgram(program);
+
+    const buffer = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 3, -1, -1, 3]), gl.STATIC_DRAW);
+    const position = gl.getAttribLocation(program, 'position');
+    gl.enableVertexAttribArray(position);
+    gl.vertexAttribPointer(position, 2, gl.FLOAT, false, 0, 0);
+    const uniform = name => gl.getUniformLocation(program, name);
+    const u = {
+      time: uniform('iTime'), resolution: uniform('iResolution'), speed: uniform('iSpeed'),
+      color1: uniform('iRayColor1'), color2: uniform('iRayColor2'), intensity: uniform('iIntensity'),
+      spread: uniform('iSpread'), tilt: uniform('iTilt'), saturation: uniform('iSaturation'),
+      blend: uniform('iBlend'), falloff: uniform('iFalloff'), opacity: uniform('iOpacity')
+    };
+    gl.uniform1f(u.speed, 0.55); gl.uniform3f(u.color1, 0.79, 0.64, 0.38);
+    gl.uniform3f(u.color2, 0.76, 0.50, 0.45); gl.uniform1f(u.intensity, 3.1);
+    gl.uniform1f(u.spread, 2.1); gl.uniform1f(u.tilt, -8); gl.uniform1f(u.saturation, 1.12);
+    gl.uniform1f(u.blend, 0.42); gl.uniform1f(u.falloff, 1.42); gl.uniform1f(u.opacity, 0.82);
+
+    const resize = () => {
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      canvas.width = Math.round(innerWidth * dpr); canvas.height = Math.round(innerHeight * dpr);
+      gl.viewport(0, 0, canvas.width, canvas.height);
+      gl.uniform2f(u.resolution, canvas.width, canvas.height);
+    };
+    resize(); window.addEventListener('resize', resize);
+    const render = time => {
+      if (!document.hidden) { gl.uniform1f(u.time, time * 0.001); gl.drawArrays(gl.TRIANGLES, 0, 3); }
+      requestAnimationFrame(render);
+    };
+    requestAnimationFrame(render);
+  })();
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  /* ---- hero intro (single orchestrated moment) ---- */
+  gsap.to('.hero-word', {
+    y: 0,
+    duration: 1,
+    ease: 'expo.out',
+    stagger: 0.12,
+    delay: 0.2
+  });
+  gsap.to('.hero-sub', { opacity: 1, duration: 1, delay: 0.7 });
+  gsap.to('.scroll-cue', { opacity: 1, duration: 1, delay: 1 });
+
+  /* ---- overall scroll progress rail ---- */
+  gsap.to('#railFill', {
+    height: '100%',
+    ease: 'none',
+    scrollTrigger: {
+      trigger: document.body,
+      start: 'top top',
+      end: 'bottom bottom',
+      scrub: 0.3
+    }
+  });
+
+  /* ---- category pin + subcard reveal ---- */
+  document.querySelectorAll('.category').forEach((section) => {
+    const pinEl = section.querySelector('.category-pin');
+    const cards = Array.from(section.querySelectorAll('.subcard'));
+    const dots = Array.from(section.querySelectorAll('.cat-progress button'));
+    const setActiveCard = (active) => {
+      cards.forEach((card, i) => {
+        const isActive = i === active;
+        card.style.pointerEvents = isActive ? 'auto' : 'none';
+        card.style.zIndex = isActive ? '2' : '1';
+      });
+      dots.forEach((dot, i) => {
+        const isActive = i === active;
+        dot.classList.toggle('on', isActive);
+        dot.setAttribute('aria-pressed', String(isActive));
+      });
+    };
+
+    setActiveCard(0);
+
+    // One ScrollTrigger owns both the pin and the card timeline. Keeping these
+    // together prevents the initial card from being skipped when entering a section.
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: section,
+        start: 'top top',
+        end: () => `+=${Math.max(1, cards.length - 1) * window.innerHeight}`,
+        pin: pinEl,
+        pinSpacing: true,
+        scrub: 0.65,
+        anticipatePin: 1,
+        invalidateOnRefresh: true,
+        onUpdate: (self) => {
+          const active = Math.min(cards.length - 1, Math.floor(self.progress * (cards.length - 1) + 0.5));
+          setActiveCard(active);
+        }
+      }
+    });
+
+    dots.forEach((dot, index) => {
+      dot.addEventListener('click', () => {
+        const trigger = tl.scrollTrigger;
+        const progress = index / Math.max(1, cards.length - 1);
+        window.scrollTo({ top: trigger.start + (trigger.end - trigger.start) * progress, behavior: 'smooth' });
+      });
+    });
+
+    cards.forEach((card, i) => {
+      if (i > 0) {
+        tl.to(cards[i - 1], { opacity: 0, y: -50, scale: 0.95, duration: 1, ease: 'power1.inOut' }, i - 1);
+        tl.fromTo(card,
+          { opacity: 0, y: 60, scale: 0.97 },
+          { opacity: 1, y: 0, scale: 1, duration: 1, ease: 'power1.inOut' },
+          i - 1
+        );
+      }
+    });
+  });
+
+ScrollTrigger.refresh();
+
+/* ---- navbar navigation ---- */
+document.querySelectorAll('nav .nav-links a[href^="#"]').forEach((link) => {
+  link.addEventListener('click', (event) => {
+    const target = document.querySelector(link.getAttribute('href'));
+    if (!target) return;
+
+    event.preventDefault();
+    const targetTop = target.getBoundingClientRect().top + window.scrollY;
+    window.scrollTo({ top: Math.max(0, targetTop), behavior: 'smooth' });
+    history.pushState(null, '', link.getAttribute('href'));
+  });
+});
+
+const videoModal = document.getElementById('videoModal');
+const videoModalFrame = document.getElementById('videoModalFrame');
+const videoModalClose = document.getElementById('videoModalClose');
+
+function openVideo(youtubeId){
+  videoModalFrame.innerHTML =
+    `<iframe src="https://www.youtube-nocookie.com/embed/${youtubeId}?autoplay=1&rel=0"
+      title="Project preview" allow="autoplay; encrypted-media" allowfullscreen></iframe>`;
+  videoModal.classList.add('open');
+}
+function closeVideo(){
+  videoModal.classList.remove('open');
+  videoModalFrame.innerHTML = '';
+}
+
+document.querySelectorAll('.subcard[data-video]').forEach(card => {
+  const youtubeId = card.getAttribute('data-video');
+  const thumbnail = card.querySelector('.frame');
+  thumbnail.style.backgroundImage = `url("https://i.ytimg.com/vi/${youtubeId}/hqdefault.jpg")`;
+
+  card.addEventListener('click', () => {
+    window.open(`https://www.youtube.com/watch?v=${youtubeId}`, '_blank', 'noopener,noreferrer');
+  });
+});
+videoModalClose.addEventListener('click', closeVideo);
+videoModal.addEventListener('click', (e) => { if (e.target === videoModal) closeVideo(); });
+document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeVideo(); });
+</script>
+  </body>
+  </html>
